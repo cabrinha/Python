@@ -21,6 +21,7 @@ To compute this, we can simply store the times from before and after the request
 
 import datetime
 import requests
+import threading
 import time
 
 
@@ -31,7 +32,9 @@ def ticker(stock):
     end = time.time()
     last_updated = time.time() - (datetime.datetime.strptime(r['updated_at'], '%Y-%m-%dT%H:%M:%SZ') - datetime.datetime(1970, 1, 1)).total_seconds()
     it_took = end - start
-    return 'marketdata.latency {} {} type=quote\nmarketdata.latency {} {} type=request'.format(time.time(), last_updated, time.time(), it_took)
+    print 'marketdata.latency {} {} type=quote\nmarketdata.latency {} {} type=request'.format(time.time(), last_updated, time.time(), it_took)
 
 while True:
-    ticker('SPY')
+    t = threading.Timer(2, ticker, ['SPY'])
+    t.start()
+    time.sleep(2)
