@@ -26,7 +26,6 @@ import time
 
 
 def ticker(stock):
-    time.sleep(2)
     start = time.time()
     r = requests.get('https://api.robinhood.com/quotes/{}/'.format(stock)).json()
     end = time.time()
